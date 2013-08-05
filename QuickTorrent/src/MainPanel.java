@@ -37,12 +37,17 @@ public class MainPanel {
 	public JRadioButton rdbtnAlbum;
 	public JRadioButton rdbtnSingle;
 	public JRadioButton rdbtnMovie;
+	public JButton searchButton;
+	public JFrame frmQuickTorrent;
+	public JTextField searchBox;
+	
 	public StyledDocument doc;
+	
 	public boolean consoleOn = true;
+	public boolean filterOn = false;
+	public String mediaType = "music";
 	public String displayText = "Welcome to Quick Torrent!\n";
 
-	private JFrame frmQuickTorrent;
-	private JTextField searchBox;
 
 	/**
 	 * Launch the application.
@@ -88,7 +93,7 @@ public class MainPanel {
 		chckbxFilterResults = new JCheckBox("Filter Results");
 		chckbxFilterResults.setFont(new Font("OCR A Extended", Font.PLAIN, 13));
 		
-		JButton searchButton = new JButton("Search");
+		searchButton = new JButton("Search");
 		searchButton.setFont(new Font("OCR A Extended", Font.PLAIN, 13));
 		JSeparator separator = new JSeparator();
 		separator.setForeground(SystemColor.desktop);
@@ -161,16 +166,48 @@ public class MainPanel {
 		frmQuickTorrent.getContentPane().add(scrollPane);
 		textPane = new JTextPane();
 		//Add actions
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				doc = textPane.getStyledDocument();
+				try {
+						doc.insertString(doc.getLength(),"\n> Searching for "+searchButton.getText(),null );
+				} catch (BadLocationException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		chckbxFilterResults.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				filterOn=!filterOn;
+				doc = textPane.getStyledDocument();
+				if(filterOn){
+					try {
+						doc.insertString(doc.getLength(),"\n> Filter On\n",null );
+					} catch (BadLocationException e1) {
+						e1.printStackTrace();
+					}
+				}
+				else{
+					try {
+						doc.insertString(doc.getLength(),"\n> Filter Off\n",null );
+					} catch (BadLocationException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		rdbtnSingle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				rdbtnAlbum.setSelected(false);
 				rdbtnMovie.setSelected(false);
 				doc = textPane.getStyledDocument();
 				try {
-					if(rdbtnSingle.isSelected())
-						doc.insertString(doc.getLength(),"\nSearch for singles.\n",null );
+					if(rdbtnSingle.isSelected()){
+						mediaType = "music";
+						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType + " for singles.\n",null );
+					}
 				} catch (BadLocationException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -181,10 +218,11 @@ public class MainPanel {
 				rdbtnSingle.setSelected(false);
 				doc = textPane.getStyledDocument();
 				try {
-					if(rdbtnAlbum.isSelected())
-						doc.insertString(doc.getLength(),"\nSearch for albums.\n",null );
+					if(rdbtnAlbum.isSelected()){
+						mediaType = "albums";
+						doc.insertString(doc.getLength(),"\n> Search in category " + mediaType + ".\n",null );
+					}
 				} catch (BadLocationException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -195,8 +233,10 @@ public class MainPanel {
 				rdbtnSingle.setSelected(false);
 				doc = textPane.getStyledDocument();
 				try {
-					if(rdbtnMovie.isSelected())
-						doc.insertString(doc.getLength(),"\nSearch for movies.\n",null );
+					if(rdbtnMovie.isSelected()){
+						mediaType = "movies";
+						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType +".\n",null );
+					}
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
