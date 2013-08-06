@@ -1,38 +1,31 @@
+import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-
 import java.awt.GridLayout;
-
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
 import java.awt.Font;
-
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
-import javax.swing.AbstractAction;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.Action;
 import javax.swing.JSeparator;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import java.awt.SystemColor;
-
+import sites.kat.KATSimpleSearch;
+import sites.pirate.PirateSimpleSearch;
 
 public class MainPanel {
-	public JTextPane textPane;
+	public JTextPane txtpnWelcomeToQuick;
 	public JCheckBox chckbxFilterResults;
 	public JRadioButton rdbtnAlbum;
 	public JRadioButton rdbtnSingle;
@@ -40,6 +33,10 @@ public class MainPanel {
 	public JButton searchButton;
 	public JFrame frmQuickTorrent;
 	public JTextField searchBox;
+	
+	SimpleAttributeSet error;
+	SimpleAttributeSet info;
+	SimpleAttributeSet success;
 	
 	public StyledDocument doc;
 	
@@ -77,12 +74,15 @@ public class MainPanel {
 	 */
 	private void initialize() {
 		frmQuickTorrent = new JFrame();
+		frmQuickTorrent.setBackground(Color.GRAY);
+		frmQuickTorrent.getContentPane().setBackground(Color.GRAY);
 		frmQuickTorrent.setTitle("Quick Torrent - Jamin B");
 		frmQuickTorrent.setBounds(100, 100, 1200, 600);
 		frmQuickTorrent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmQuickTorrent.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.GRAY);
 		frmQuickTorrent.getContentPane().add(panel);
 		
 		searchBox = new JTextField();
@@ -91,51 +91,63 @@ public class MainPanel {
 		searchBox.setColumns(15);
 		
 		chckbxFilterResults = new JCheckBox("Filter Results");
-		chckbxFilterResults.setFont(new Font("OCR A Extended", Font.PLAIN, 13));
+		chckbxFilterResults.setForeground(Color.WHITE);
+		chckbxFilterResults.setBackground(Color.GRAY);
+		chckbxFilterResults.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
 		searchButton = new JButton("Search");
+		searchButton.setBackground(Color.GRAY);
 		searchButton.setFont(new Font("OCR A Extended", Font.PLAIN, 13));
 		JSeparator separator = new JSeparator();
-		separator.setForeground(SystemColor.desktop);
+		separator.setBackground(Color.GRAY);
+		separator.setForeground(Color.WHITE);
 		
 		rdbtnSingle = new JRadioButton("Single");
+		rdbtnSingle.setForeground(Color.WHITE);
+		rdbtnSingle.setBackground(Color.GRAY);
 		rdbtnSingle.setSelected(true);
-		rdbtnSingle.setFont(new Font("OCR A Extended", Font.PLAIN, 11));
+		rdbtnSingle.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
 		rdbtnAlbum = new JRadioButton("Album");
-		rdbtnAlbum.setFont(new Font("OCR A Extended", Font.PLAIN, 11));
+		rdbtnAlbum.setForeground(Color.WHITE);
+		rdbtnAlbum.setBackground(Color.GRAY);
+		rdbtnAlbum.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
 		rdbtnMovie = new JRadioButton("Movie");
-		rdbtnMovie.setFont(new Font("OCR A Extended", Font.PLAIN, 11));
+		rdbtnMovie.setForeground(Color.WHITE);
+		rdbtnMovie.setBackground(Color.GRAY);
+		rdbtnMovie.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
 		JCheckBox chckbxShowConsole = new JCheckBox("Show Console");
+		chckbxShowConsole.setForeground(Color.WHITE);
+		chckbxShowConsole.setBackground(Color.GRAY);
 		chckbxShowConsole.setSelected(true);
-		chckbxShowConsole.setFont(new Font("OCR A Extended", Font.PLAIN, 11));
+		chckbxShowConsole.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
+			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(searchBox, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+							.addComponent(searchBox, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
 							.addGap(6)
 							.addComponent(chckbxFilterResults)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(searchButton)
 							.addGap(171))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(rdbtnSingle, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(rdbtnAlbum, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+							.addComponent(rdbtnSingle, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(rdbtnAlbum, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(rdbtnMovie)
-							.addContainerGap(396, Short.MAX_VALUE))))
-				.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+							.addContainerGap(369, Short.MAX_VALUE))))
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(chckbxShowConsole)
-					.addContainerGap(489, Short.MAX_VALUE))
+					.addContainerGap(477, Short.MAX_VALUE))
+				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -158,20 +170,53 @@ public class MainPanel {
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(chckbxShowConsole)
-					.addGap(464))
+					.addGap(471))
 		);
 		panel.setLayout(gl_panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.GRAY);
 		frmQuickTorrent.getContentPane().add(scrollPane);
-		textPane = new JTextPane();
+		txtpnWelcomeToQuick = new JTextPane();
+		txtpnWelcomeToQuick.setBackground(Color.BLACK);
+		txtpnWelcomeToQuick.setForeground(new Color(255, 255, 255));
+		txtpnWelcomeToQuick.setFont(new Font("OCR A Extended", Font.BOLD, 11));
+		txtpnWelcomeToQuick.setEditable(false);
+		
 		//Add actions
+		error = new SimpleAttributeSet();
+		StyleConstants.setForeground(error, Color.RED);
+		StyleConstants.setFontFamily(error, "OCR A Extended");
+		
+		info = new SimpleAttributeSet();
+		StyleConstants.setForeground(info, Color.BLUE);
+		StyleConstants.setFontFamily(info, "OCR A Extended");
+		
+		success = new SimpleAttributeSet();
+		StyleConstants.setForeground(info, Color.GREEN);
+		StyleConstants.setFontFamily(info, "OCR A Extended");
+		
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				doc = textPane.getStyledDocument();
+				doc = txtpnWelcomeToQuick.getStyledDocument();
 				try {
-						doc.insertString(doc.getLength(),"\n> Searching for "+searchButton.getText(),null );
-				} catch (BadLocationException e1) {
+					if(searchBox.getText().isEmpty())
+						doc.insertString(doc.getLength(),"\n> No search term entered!\n ", error );
+					else if(!rdbtnSingle.isSelected() && !rdbtnAlbum.isSelected() && !rdbtnMovie.isSelected())
+						doc.insertString(doc.getLength(),"\n> No category selected!\n ", error );
+					else{
+						if(filterOn){
+							doc.insertString(doc.getLength(),"\n> Completed filtered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
+						}
+							
+						else{
+							doc.insertString(doc.getLength(),"\n> Completed unfiltered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
+						}
+						KATSimpleSearch currentSearch = new KATSimpleSearch(searchBox.getText(), mediaType, filterOn );
+						doc.insertString(doc.getLength(), "\nBest Link: " + currentSearch.findBestDownload(), success);
+					}
+				}
+				 catch (BadLocationException e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -180,17 +225,17 @@ public class MainPanel {
 		chckbxFilterResults.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				filterOn=!filterOn;
-				doc = textPane.getStyledDocument();
+				doc = txtpnWelcomeToQuick.getStyledDocument();
 				if(filterOn){
 					try {
-						doc.insertString(doc.getLength(),"\n> Filter On\n",null );
+						doc.insertString(doc.getLength(),"\n> Filter On\n",info );
 					} catch (BadLocationException e1) {
 						e1.printStackTrace();
 					}
 				}
 				else{
 					try {
-						doc.insertString(doc.getLength(),"\n> Filter Off\n",null );
+						doc.insertString(doc.getLength(),"\n> Filter Off\n",info );
 					} catch (BadLocationException e1) {
 						e1.printStackTrace();
 					}
@@ -201,11 +246,11 @@ public class MainPanel {
 			public void actionPerformed(ActionEvent e){
 				rdbtnAlbum.setSelected(false);
 				rdbtnMovie.setSelected(false);
-				doc = textPane.getStyledDocument();
+				doc = txtpnWelcomeToQuick.getStyledDocument();
 				try {
 					if(rdbtnSingle.isSelected()){
 						mediaType = "music";
-						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType + " for singles.\n",null );
+						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType + " for singles.\n",info );
 					}
 				} catch (BadLocationException e1) {
 					e1.printStackTrace();
@@ -216,11 +261,11 @@ public class MainPanel {
 			public void actionPerformed(ActionEvent e){
 				rdbtnMovie.setSelected(false);
 				rdbtnSingle.setSelected(false);
-				doc = textPane.getStyledDocument();
+				doc = txtpnWelcomeToQuick.getStyledDocument();
 				try {
 					if(rdbtnAlbum.isSelected()){
 						mediaType = "albums";
-						doc.insertString(doc.getLength(),"\n> Search in category " + mediaType + ".\n",null );
+						doc.insertString(doc.getLength(),"\n> Search in category " + mediaType + ".\n",info );
 					}
 				} catch (BadLocationException e1) {
 					e1.printStackTrace();
@@ -231,11 +276,11 @@ public class MainPanel {
 			public void actionPerformed(ActionEvent e){
 				rdbtnAlbum.setSelected(false);
 				rdbtnSingle.setSelected(false);
-				doc = textPane.getStyledDocument();
+				doc = txtpnWelcomeToQuick.getStyledDocument();
 				try {
 					if(rdbtnMovie.isSelected()){
 						mediaType = "movies";
-						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType +".\n",null );
+						doc.insertString(doc.getLength(),"\n> Search in category "+ mediaType +".\n",info );
 					}
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
@@ -246,13 +291,13 @@ public class MainPanel {
 		chckbxShowConsole.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				consoleOn=!consoleOn;
-				textPane.setVisible(consoleOn);
+				txtpnWelcomeToQuick.setVisible(consoleOn);
 				
 			}
 		});
 		//
-		scrollPane.setViewportView(textPane);
-		Actions displayOutput = new Actions();
-		textPane.setText(textPane.getText() + displayText);
+		scrollPane.setViewportView(txtpnWelcomeToQuick);
+		
+		txtpnWelcomeToQuick.setText("Welcome to Quick Torrent!\r\n");
 	}
 }
