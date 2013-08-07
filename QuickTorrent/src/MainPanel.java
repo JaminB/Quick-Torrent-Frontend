@@ -25,6 +25,7 @@ import javax.swing.text.StyledDocument;
 import sites.kat.KATSimpleSearch;
 import sites.pirate.PirateSimpleSearch;
 import converters.torcache.*;
+import java.awt.SystemColor;
 
 public class MainPanel {
 	public JTextPane txtpnWelcomeToQuick;
@@ -46,6 +47,7 @@ public class MainPanel {
 	public boolean filterOn = false;
 	public String mediaType = "music";
 	public String displayText = "Welcome to Quick Torrent!\n";
+	private JCheckBox chckbxShowConsole;
 
 
 	/**
@@ -99,7 +101,7 @@ public class MainPanel {
 		chckbxFilterResults.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
 		searchButton = new JButton("Search");
-		searchButton.setBackground(Color.GRAY);
+		searchButton.setBackground(Color.WHITE);
 		searchButton.setFont(new Font("OCR A Extended", Font.PLAIN, 13));
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.GRAY);
@@ -121,41 +123,45 @@ public class MainPanel {
 		rdbtnMovie.setBackground(Color.GRAY);
 		rdbtnMovie.setFont(new Font("OCR A Extended", Font.BOLD, 12));
 		
-		JCheckBox chckbxShowConsole = new JCheckBox("Show Console");
-		chckbxShowConsole.setForeground(Color.WHITE);
-		chckbxShowConsole.setBackground(Color.GRAY);
+		chckbxShowConsole = new JCheckBox("Show Console");
 		chckbxShowConsole.setSelected(true);
+		chckbxShowConsole.setForeground(Color.WHITE);
 		chckbxShowConsole.setFont(new Font("OCR A Extended", Font.BOLD, 12));
+		chckbxShowConsole.setBackground(Color.GRAY);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.BLACK);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(searchBox, GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
-							.addGap(6)
-							.addComponent(chckbxFilterResults)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(searchButton)
-							.addGap(171))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(rdbtnSingle, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(rdbtnAlbum, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(rdbtnMovie)
-							.addContainerGap(369, Short.MAX_VALUE))))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(chckbxShowConsole)
-					.addContainerGap(477, Short.MAX_VALUE))
-				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+							.addComponent(chckbxShowConsole, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(searchBox, GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+								.addGap(6)
+								.addComponent(chckbxFilterResults)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(searchButton)
+								.addGap(171))
+							.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(rdbtnSingle, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(rdbtnAlbum, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(rdbtnMovie)
+								.addContainerGap(947, Short.MAX_VALUE)))))
+				.addComponent(separator, GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 1184, Short.MAX_VALUE)
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
+					.addGap(10)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(30)
@@ -169,22 +175,22 @@ public class MainPanel {
 								.addComponent(searchButton)
 								.addComponent(searchBox, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
 							.addGap(28)))
-					.addGap(4)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 4, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
 					.addComponent(chckbxShowConsole)
-					.addGap(471))
+					.addGap(294)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
 		);
-		panel.setLayout(gl_panel);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBackground(Color.GRAY);
-		frmQuickTorrent.getContentPane().add(scrollPane);
 		txtpnWelcomeToQuick = new JTextPane();
-		txtpnWelcomeToQuick.setBackground(Color.BLACK);
-		txtpnWelcomeToQuick.setForeground(new Color(255, 255, 255));
+		scrollPane.setViewportView(txtpnWelcomeToQuick);
+		txtpnWelcomeToQuick.setBackground(new Color(255, 255, 255));
+		txtpnWelcomeToQuick.setForeground(Color.BLACK);
 		txtpnWelcomeToQuick.setFont(new Font("OCR A Extended", Font.BOLD, 11));
 		txtpnWelcomeToQuick.setEditable(false);
+		
+		txtpnWelcomeToQuick.setText("Welcome to Quick Torrent by JaminB.\r\nSource available at: https://github.com/JaminB\r\n\r\nThank you for tying out the Alpha.\r\n\r\n1. Please allow up to 60 seconds after clicking start. The alpha does not have a loading bar.\r\n\r\n2. You can copy any text displayed in console with control-c.\r\n\r\n3. Please don't break any laws!\n\n");
+		panel.setLayout(gl_panel);
 		
 		//Add actions
 		error = new SimpleAttributeSet();
@@ -192,12 +198,9 @@ public class MainPanel {
 		StyleConstants.setFontFamily(error, "OCR A Extended");
 		
 		info = new SimpleAttributeSet();
-		StyleConstants.setForeground(info, Color.BLUE);
+		StyleConstants.setForeground(info, Color.BLACK);
 		StyleConstants.setFontFamily(info, "OCR A Extended");
 		
-		success = new SimpleAttributeSet();
-		StyleConstants.setForeground(info, Color.GREEN);
-		StyleConstants.setFontFamily(info, "OCR A Extended");
 		
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
@@ -296,16 +299,13 @@ public class MainPanel {
 				}
 			}
 		});
+		
 		chckbxShowConsole.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				consoleOn=!consoleOn;
 				txtpnWelcomeToQuick.setVisible(consoleOn);
-				
+
 			}
 		});
-		//
-		scrollPane.setViewportView(txtpnWelcomeToQuick);
-		
-		txtpnWelcomeToQuick.setText("Welcome to Quick Torrent by JaminB.\r\nSource available at: https://github.com/JaminB\r\n\r\nThank you for tying out the Alpha.\r\n\r\n1. Please allow up to 60 seconds after clicking start. The alpha does not have a loading bar.\r\n\r\n2. You can copy any text displayed in console with control-c.\r\n\r\n3. Please don't break any laws!");
 	}
 }
