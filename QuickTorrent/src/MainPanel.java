@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -22,10 +21,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import sites.kat.KATSimpleSearch;
 import sites.pirate.PirateSimpleSearch;
 import converters.torcache.*;
-import java.awt.SystemColor;
 
 public class MainPanel {
 	public JTextPane txtpnWelcomeToQuick;
@@ -39,7 +36,7 @@ public class MainPanel {
 	
 	SimpleAttributeSet error;
 	SimpleAttributeSet info;
-	SimpleAttributeSet success;
+	SimpleAttributeSet link;
 	
 	public StyledDocument doc;
 	
@@ -189,7 +186,7 @@ public class MainPanel {
 		txtpnWelcomeToQuick.setFont(new Font("OCR A Extended", Font.BOLD, 11));
 		txtpnWelcomeToQuick.setEditable(false);
 		
-		txtpnWelcomeToQuick.setText("Welcome to Quick Torrent by JaminB.\r\nSource available at: https://github.com/JaminB\r\n\r\nThank you for tying out the Alpha.\r\n\r\n1. Please allow up to 60 seconds after clicking start. The alpha does not have a loading bar.\r\n\r\n2. You can copy any text displayed in console with control-c.\r\n\r\n3. Please don't break any laws!\n\n");
+		txtpnWelcomeToQuick.setText("Welcome to Quick Torrent by JaminB.\r\nSource available at: https://github.com/JaminB\r\n\r\nThank you for tying out the Alpha.\r\n\r\n1. Please allow up to 60 seconds after clicking start. The alpha does not have a loading bar.\r\n\r\n2. You can copy any text displayed in console with control-c.\r\n\r\n3. Please don't break any laws!\n");
 		panel.setLayout(gl_panel);
 		
 		//Add actions
@@ -201,7 +198,9 @@ public class MainPanel {
 		StyleConstants.setForeground(info, Color.BLACK);
 		StyleConstants.setFontFamily(info, "OCR A Extended");
 		
-		
+		link = new SimpleAttributeSet();
+		StyleConstants.setForeground(link, Color.BLUE);
+		StyleConstants.setFontFamily(link, "OCR A Extended");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				doc = txtpnWelcomeToQuick.getStyledDocument();
@@ -221,10 +220,10 @@ public class MainPanel {
 						PirateSimpleSearch currentSearch = new PirateSimpleSearch(searchBox.getText(), mediaType, filterOn );
 						
 						String magnet = currentSearch.findBestDownload();
-						doc.insertString(doc.getLength(), "\nBest Link: \n\n" + magnet, info);
+						doc.insertString(doc.getLength(), "\nBest Link: \n" + magnet+"\n", link);
 						MagnetToTorrent torrent = new MagnetToTorrent(magnet);
 						
-						doc.insertString(doc.getLength(), "\n\nTorrent: "+torrent.getTorrentLink(torrent.getHash()), info);
+						doc.insertString(doc.getLength(), "\n\nTorrent: "+torrent.getTorrentLink(torrent.getHash())+"\n", link);
 					}
 				}
 				 catch (BadLocationException e1) {
