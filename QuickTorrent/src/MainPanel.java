@@ -224,17 +224,17 @@ public class MainPanel {
 							public void run() {
 								currentSearch = new PirateSimpleSearch(searchBox.getText(), mediaType, filterOn );
 								try {
-									doc.insertString(doc.getLength(), "\nBest Link: " + currentSearch.findBestDownload(), link);
+									String magnet = currentSearch.findBestDownload();
+									doc.insertString(doc.getLength(), "\nBest Link: " + magnet, link);
+									MagnetToTorrent torrent = new MagnetToTorrent(magnet);
+									doc.insertString(doc.getLength(), "\n\nTorrent: "+torrent.getTorrentLink(torrent.getHash())+"\n", link);
 								} catch (BadLocationException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
 						}).start();
-						String magnet = currentSearch.findBestDownload();
-						doc.insertString(doc.getLength(), "\nBest Link: \n" + magnet+"\n", link);
-						MagnetToTorrent torrent = new MagnetToTorrent(magnet);
-						doc.insertString(doc.getLength(), "\n\nTorrent: "+torrent.getTorrentLink(torrent.getHash())+"\n", link);
+						
 					}
 				}
 				 catch (BadLocationException e1) {
