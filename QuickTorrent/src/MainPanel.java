@@ -33,6 +33,7 @@ public class MainPanel {
 	public JButton searchButton;
 	public JFrame frmQuickTorrent;
 	public JTextField searchBox;
+	public PirateSimpleSearch currentSearch;
 	
 	SimpleAttributeSet error;
 	SimpleAttributeSet info;
@@ -211,18 +212,28 @@ public class MainPanel {
 						doc.insertString(doc.getLength(),"\n> No category selected!\n ", error );
 					else{
 						if(filterOn){
-							doc.insertString(doc.getLength(),"\n> Completed filtered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
+							doc.insertString(doc.getLength(),"\n> Starting filtered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
 						}
 							
 						else{
-							doc.insertString(doc.getLength(),"\n> Completed unfiltered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
+							doc.insertString(doc.getLength(),"\n> Starting unfiltered search for \""+searchBox.getText() + "\" in category " + mediaType + ".", info );
 						}
-						PirateSimpleSearch currentSearch = new PirateSimpleSearch(searchBox.getText(), mediaType, filterOn );
+						//PirateSimpleSearch currentSearch = new PirateSimpleSearch(searchBox.getText(), mediaType, filterOn );
 						
+						new Thread(new Runnable() {
+							public void run() {
+								currentSearch = new PirateSimpleSearch(searchBox.getText(), mediaType, filterOn );
+								try {
+									doc.insertString(doc.getLength(), "\nBest Link: " + currentSearch.findBestDownload(), link);
+								} catch (BadLocationException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						}).start();
 						String magnet = currentSearch.findBestDownload();
 						doc.insertString(doc.getLength(), "\nBest Link: \n" + magnet+"\n", link);
 						MagnetToTorrent torrent = new MagnetToTorrent(magnet);
-						
 						doc.insertString(doc.getLength(), "\n\nTorrent: "+torrent.getTorrentLink(torrent.getHash())+"\n", link);
 					}
 				}
